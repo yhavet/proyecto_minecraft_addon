@@ -1,0 +1,39 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+    "icon": {
+      "id": "micamod:golden_ball"
+    },
+    "title": {
+      "translate": "advancements.micamod.la_pulga_de_las_profundidades.title"
+    },
+    "description": {
+      "translate": "advancements.micamod.la_pulga_de_las_profundidades.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tame_messi": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "minecraft:entity_type": "micamod:custom_mob"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tame_messi"
+    ]
+  ]
+}

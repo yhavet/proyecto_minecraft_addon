@@ -121,6 +121,7 @@ public class CustomMob extends TamableAnimal implements RangedAttackMob {
                 }
                 this.tame(player);
                 this.setTarget(null);
+                this.level().broadcastEntityEvent(this, (byte) 7);
             }
             return InteractionResult.SUCCESS;
         }

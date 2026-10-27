@@ -1,4 +1,7 @@
 {
   "item.micamod.golden_ball": "Balón de Oro",
+  "item.micamod.custom_mob_spawn_egg": "Huevo de Messi",
+  "advancements.micamod.la_pulga_de_las_profundidades.title": "La Pulga de las Profundidades",
+  "advancements.micamod.la_pulga_de_las_profundidades.description": "Domestica a Messi con el Balón de Oro.",
   "entity.micamod.custom_mob": "Messi"
 }

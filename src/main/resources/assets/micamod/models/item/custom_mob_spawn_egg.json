@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "micamod:item/custom_mob_spawn_egg"
+  }
+}

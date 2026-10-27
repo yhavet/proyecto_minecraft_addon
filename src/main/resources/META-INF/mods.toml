@@ -17,7 +17,7 @@ license="All Rights Reserved"
 # The modid of the mod
 modId="micamod" #mandatory
 # The version number of the mod
-version="1.0.0" #mandatory
+version="${file.jarVersion}" #mandatory
 # A display name for the mod
 displayName="Mica Mod" #mandatory
 # A text field displayed in the mod UI

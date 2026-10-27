@@ -1,4 +1,7 @@
 {
   "item.micamod.golden_ball": "Golden Ball",
+  "item.micamod.custom_mob_spawn_egg": "Messi Spawn Egg",
+  "advancements.micamod.la_pulga_de_las_profundidades.title": "The Deep-Dark Flea",
+  "advancements.micamod.la_pulga_de_las_profundidades.description": "Tame Messi with the Golden Ball.",
   "entity.micamod.custom_mob": "Messi"
 }
