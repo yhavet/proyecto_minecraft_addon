@@ -1,22 +1,28 @@
 package com.example.examplemod.entity;
 
 import com.example.examplemod.ExampleMod;
-import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.state.ZombieRenderState;
+import net.minecraft.resources.Identifier;
 
-public class CustomMobRenderer extends MobRenderer<CustomMob, CustomMobModel<CustomMob>> {
-
-	private static final ResourceLocation TEXTURE = new ResourceLocation(ExampleMod.micamod, "textures/entity/custom_mob.png");
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(ExampleMod.micamod, "custom_mob"), "main");
+public class CustomMobRenderer extends MobRenderer<CustomMob, ZombieRenderState, HumanoidModel<ZombieRenderState>> {
+    private static final Identifier TEXTURE =
+            Identifier.fromNamespaceAndPath(ExampleMod.micamod, "textures/entity/custom_mob.png");
 
     public CustomMobRenderer(EntityRendererProvider.Context context) {
-        super(context, new CustomMobModel<>(context.bakeLayer(LAYER_LOCATION)), 0.5f);
+        super(context, new HumanoidModel<>(context.bakeLayer(ModelLayers.ZOMBIE)), 0.5f);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(CustomMob entity) {
+    public ZombieRenderState createRenderState() {
+        return new ZombieRenderState();
+    }
+
+    @Override
+    public Identifier getTextureLocation(ZombieRenderState state) {
         return TEXTURE;
     }
 }

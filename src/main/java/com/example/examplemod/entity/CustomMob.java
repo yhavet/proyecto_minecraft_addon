@@ -7,6 +7,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -18,8 +19,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.RangedAttackMob;
 import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.SmallFireball;
-import net.minecraft.world.entity.projectile.WitherSkull;
+import net.minecraft.world.entity.projectile.hurtingprojectile.SmallFireball;
+import net.minecraft.world.entity.projectile.hurtingprojectile.WitherSkull;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -37,9 +38,9 @@ public class CustomMob extends Monster implements RangedAttackMob {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_IS_DEFENDING, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_IS_DEFENDING, false);
     }
 
     public boolean isDefending() {
@@ -65,7 +66,8 @@ public class CustomMob extends Monster implements RangedAttackMob {
         // Ataca al Warden sin condiciones.
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Warden.class, true));
         // Ataca al jugador SOLO SI el jugador lo está mirando.
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, this::isPlayerLookingAtMe));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(
+                this, Player.class, true, (player, level) -> this.isPlayerLookingAtMe(player)));
     }
 
     // --- LÓGICA DE "ME ESTÁS MIRANDO?" ---
@@ -101,7 +103,7 @@ public class CustomMob extends Monster implements RangedAttackMob {
             double dy = target.getEyeY() - this.getEyeY();
             double dz = target.getZ() - this.getZ();
             
-            WitherSkull skull = new WitherSkull(this.level(), this, dx, dy, dz);
+            WitherSkull skull = new WitherSkull(this.level(), this, new Vec3(dx, dy, dz));
             skull.setPos(this.getX(), this.getEyeY(), this.getZ());
             this.level().addFreshEntity(skull);
         }
@@ -111,7 +113,7 @@ public class CustomMob extends Monster implements RangedAttackMob {
             double dy = target.getY(0.3333333333333333D) - this.getY(0.5D);
             double dz = target.getZ() - this.getZ();
             
-            SmallFireball fireball = new SmallFireball(this.level(), this, dx, dy, dz);
+            SmallFireball fireball = new SmallFireball(this.level(), this, new Vec3(dx, dy, dz));
             fireball.setPos(this.getX(), this.getY(0.5D), this.getZ());
             this.level().addFreshEntity(fireball);
         }
@@ -121,7 +123,7 @@ public class CustomMob extends Monster implements RangedAttackMob {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (this.isDefending()) {
                 this.defenseCooldown--;
                 if (this.defenseCooldown <= 0) {
@@ -132,15 +134,15 @@ public class CustomMob extends Monster implements RangedAttackMob {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
         if (this.isDefending()) {
-            return super.hurt(source, amount * 0.2f);
+            return super.hurtServer(level, source, amount * 0.2f);
         }
         if (source.getEntity() instanceof LivingEntity) {
             this.entityData.set(DATA_IS_DEFENDING, true);
             this.defenseCooldown = 100;
-            return super.hurt(source, amount);
+            return super.hurtServer(level, source, amount);
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(level, source, amount);
     }
 }

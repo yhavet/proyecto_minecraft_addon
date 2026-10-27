@@ -13,7 +13,7 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<CustomMob>> CUSTOM_MOB =
             ENTITIES.register("custom_mob",
-                    () -> EntityType.Builder.of(CustomMob::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(CustomMob::new, MobCategory.MONSTER)
                             .sized(0.8f, 1.8f)
-                            .build("custom_mob"));
+                            .build(ENTITIES.key("custom_mob")));
 }

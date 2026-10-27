@@ -1,7 +1,7 @@
 package com.example.examplemod;
 
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -12,5 +12,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> CUSTOM_MOB_SPAWN_EGG =
             ITEMS.register("custom_mob_spawn_egg",
-                    () -> new ForgeSpawnEggItem(ModEntities.CUSTOM_MOB, 0x72B6FB, 0xFFFFFF, new Item.Properties())); 
+                    () -> new SpawnEggItem(new Item.Properties()
+                            .setId(ITEMS.key("custom_mob_spawn_egg"))
+                            .spawnEgg(ModEntities.CUSTOM_MOB.get())));
 }
