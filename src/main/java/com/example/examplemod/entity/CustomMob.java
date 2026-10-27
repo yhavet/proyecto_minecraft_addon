@@ -83,8 +83,7 @@ public class CustomMob extends TamableAnimal implements RangedAttackMob {
         // ¡IA DE OBJETIVO MODIFICADA!
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(
-                this, Warden.class, true, (warden, level) -> !this.isTame()));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Warden.class, true));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(
                 this, Player.class, true, (player, level) -> !this.isTame() && this.isPlayerLookingAtMe(player)));
     }
