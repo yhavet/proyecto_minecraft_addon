@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "entries": [
+    "micamod:shipwreck_map_golden_ball",
+    "micamod:shipwreck_supply_golden_ball",
+    "micamod:shipwreck_treasure_golden_ball"
+  ]
+}

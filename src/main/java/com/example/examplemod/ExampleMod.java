@@ -2,6 +2,8 @@ package com.example.examplemod;
 
 import com.example.examplemod.entity.CustomMob;
 import com.example.examplemod.entity.CustomMobRenderer;
+import com.example.examplemod.loot.GoldenBallLootModifier;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -11,6 +13,8 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -30,6 +34,11 @@ public class ExampleMod {
         BuildCreativeModeTabContentsEvent.BUS.addListener(this::addCreative);
         SpawnPlacementRegisterEvent.BUS.addListener(this::registerSpawnPlacements);
         EntityAttributeCreationEvent.BUS.addListener(ExampleMod::onRegisterAttributes);
+        RegisterEvent.getBus(modBusGroup).addListener(event -> event.register(
+                ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS,
+                Identifier.fromNamespaceAndPath(micamod, "add_golden_ball"),
+                () -> GoldenBallLootModifier.CODEC
+        ));
         if (FMLEnvironment.dist == Dist.CLIENT) {
             EntityRenderersEvent.RegisterRenderers.BUS.addListener(ClientModEvents::registerRenderers);
         }
@@ -39,6 +48,9 @@ public class ExampleMod {
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(ModItems.CUSTOM_MOB_SPAWN_EGG);
+        }
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.GOLDEN_BALL);
         }
     }
 
